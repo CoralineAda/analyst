@@ -21,6 +21,7 @@ Or install it yourself as:
 TODO: Write usage instructions here
 
 ## Contributing
+Please note that this project is released with a [Contributor Code of Conduct](https://gitlab.com/coraline/analyst/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 1. Fork it ( https://github.com/[my-github-username]/analyst/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
