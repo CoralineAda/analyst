@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Analyst::VERSION
   spec.authors       = ["Coraline Ada Ehmke", "Mike Ziwisky"]
   spec.email         = ["coraline@idolhands.com", "mikezx@gmail.com"]
-  spec.summary       = %q{Engine for analyzing Ruby source code.}
-  spec.description   = %q{Engine for analyzing Ruby source code.}
+  spec.summary       = %q{A nice API for interacting with parsed Ruby source code.}
+  spec.description   = %q{A nice API for interacting with parsed Ruby source code.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "ephemeral"
+  spec.add_dependency "ephemeral", ">= 2.4.0"
   spec.add_dependency "poro_plus"
   spec.add_dependency "haml"
   spec.add_dependency "parser"

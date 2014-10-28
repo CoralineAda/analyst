@@ -1,13 +1,12 @@
 class ParsedFile
 
   attr_accessor :lines_of_code, :source
-  attr_accessor :complexity, :path_to_file, :class_name, :path_to_results
+  attr_accessor :path_to_file, :class_name
 
   def initialize(path_to_file: path_to_file, class_name: class_name=nil, complexity: complexity)
     @path_to_file = path_to_file
     @class_name = class_name
     @lines_of_code = []
-    @complexity = complexity
     @source = parse!
   end
 
@@ -21,10 +20,6 @@ class ParsedFile
 
   def average_complexity
     methods.map(&:complexity).reduce(:+) / methods.count.to_f
-  end
-
-  def complexity
-    @complexity ||= analyzer.complexity
   end
 
   def methods
@@ -52,10 +47,10 @@ class ParsedFile
     end.join
   end
 
+  # this should be an object or struct at least
   def summary
     {
       path_to_file: self.path_to_file,
-      results_file: self.path_to_results,
       source: source,
       class_name: self.class_name,
       complexity: complexity
