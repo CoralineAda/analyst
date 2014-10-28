@@ -1,4 +1,7 @@
 #TODO add == to association
+# TODO look thru the singleton_methods for ones on (self),
+#   and also look for the ones from 'class << self' constructs, which will be
+#   found in (sclass) nodes (which will be some sort of Entity)
 
 module Analyst
 
@@ -7,6 +10,20 @@ module Analyst
 
       def imethods
         @imethods ||= children.select { |child| child.is_a? Analyst::Entities::InstanceMethod }
+      end
+
+      def cmethods
+        some_methods = smethods.select { |method| method.target.type == :self }
+        other_methods = []#singleton_class_blocks { |block| block.target.type == :self }.map(&:methods).flatten
+        some_methods + other_methods
+      end
+
+      def singleton_class_blocks
+        children.select { |child| child.is_a? Analyst::Entities::SingletonClass }
+      end
+
+      def local_vars
+        @local_vars ||= children.select { |child| child.is_a? Analyst::Entities::LocalVariable }
       end
 
       def name
@@ -23,6 +40,12 @@ module Analyst
         name, superclass, content = ast.children
         child_nodes = (content.type == :begin) ? content.children : [content]
         child_nodes.map{ |child| Analyst::Parser.process_node(child, self) }
+      end
+
+      def smethods
+        @smethods ||= children.select do |child|
+          child.is_a? Analyst::Entities::SingletonMethod
+        end
       end
 
       # takes a (const) node and returns an array specifying the fully-qualified

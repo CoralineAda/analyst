@@ -14,7 +14,8 @@ module Analyst
     PROCESSORS = Hash.new(Entities::Empty).merge!(
       :root => Entities::Root,
       :class => Entities::Class,
-      :def => Entities::InstanceMethod
+      :def => Entities::InstanceMethod,
+      :defs => Entities::SingletonMethod
     # :module => :module_node_parser,
     # :def => :method_node_parser,
     # :send => :send_node_parser
