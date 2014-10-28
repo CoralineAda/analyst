@@ -5,7 +5,7 @@ module Analyst
 
       attr_reader :parent
 
-      def initialize(parent, ast)
+      def initialize(ast, parent)
         @parent = parent
         @ast = ast
       end
