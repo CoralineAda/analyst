@@ -51,3 +51,11 @@ module Instruments
   end
 
 end
+
+module Performances
+  module Equipment
+    class Amp
+    end
+  end
+end
+

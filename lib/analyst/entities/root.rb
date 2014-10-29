@@ -3,10 +3,6 @@ module Analyst
   module Entities
     class Root < Entity
 
-      def classes
-        @classes ||= contents.select { |entity| entity.is_a? Analyst::Entities::Class }
-      end
-
       def full_name
         ""
       end

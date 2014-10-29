@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'pry'
 
 module Analyst
 
@@ -8,7 +9,7 @@ module Analyst
 
     attr_reader :start_path
 
-    def_delegator :root, :classes
+    def_delegators :root, :classes, :top_level_classes
 
     # TODO: Empty -> Unhandled (or something like that)
     PROCESSORS = Hash.new(Entities::Empty).merge!(
@@ -16,8 +17,8 @@ module Analyst
       :class => Entities::Class,
       :def => Entities::InstanceMethod,
       :defs => Entities::SingletonMethod,
-      :begin => Entities::Begin
-    # :module => :module_node_parser,
+      :begin => Entities::Begin,
+      :module => Entities::Module
     # :def => :method_node_parser,
     # :send => :send_node_parser
     # TODO: make a method parser, which pushes the the context_stack so that things inside method bodies
@@ -25,9 +26,9 @@ module Analyst
     )
 
     def self.process_node(node, parent)
+      return if node.nil? # TODO: maybe a Entities:Nil would be appropriate? maybe?
       PROCESSORS[node.type].new(node, parent)
     end
-
 
     def initialize(ast)
       @ast = ast

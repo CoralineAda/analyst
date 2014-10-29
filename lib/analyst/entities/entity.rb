@@ -15,6 +15,26 @@ module Analyst
         # abstract method.  btw, this feels wrong -- send should be an entity too.  but for now, whatevs.
       end
 
+      # TODO: should every Entity have these accessors? maybe they're mixins... but would that provide any benefit?
+      def classes
+        @classes ||= begin
+          nested_classes = top_level_classes.map(&:classes).flatten
+          namespaced_classes = top_level_modules.map(&:classes).flatten
+          top_level_classes + nested_classes + namespaced_classes
+        end
+      end
+
+      def top_level_modules
+        @top_level_modules ||= contents.select { |entity| entity.is_a? Analyst::Entities::Module }
+      end
+
+      def top_level_classes
+        @top_level_classes ||= contents.select { |entity| entity.is_a? Analyst::Entities::Class }
+      end
+
+
+
+
       def full_name
         throw "Subclass #{self.class.name} must implement #full_name"
       end
