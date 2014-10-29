@@ -29,8 +29,8 @@ module Analyst
 
       attr_reader :ast
 
-      def children
-        @children ||= Array(Analyst::Parser.process_node(content_node, self))
+      def contents
+        @contents ||= Array(Analyst::Parser.process_node(content_node, self))
       end
 
       def content_node

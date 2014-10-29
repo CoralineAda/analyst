@@ -12,7 +12,7 @@ module Analyst
       end
 
       def smethods
-        @smethods ||= children.select { |child| child.is_a? Analyst::Entities::InstanceMethod }
+        @smethods ||= contents.select { |entity| entity.is_a? Analyst::Entities::InstanceMethod }
       end
 
     end

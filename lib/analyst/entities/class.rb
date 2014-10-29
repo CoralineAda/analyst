@@ -9,7 +9,7 @@ module Analyst
     class Class < Entity
 
       def imethods
-        @imethods ||= children.select { |child| child.is_a? Analyst::Entities::InstanceMethod }
+        @imethods ||= contents.select { |entity| entity.is_a? Analyst::Entities::InstanceMethod }
       end
 
       def cmethods
@@ -19,15 +19,15 @@ module Analyst
       end
 
       def singleton_class_blocks
-        children.select { |child| child.is_a? Analyst::Entities::SingletonClass }
+        contents.select { |entity| entity.is_a? Analyst::Entities::SingletonClass }
       end
 
       def local_vars
-        @local_vars ||= children.select { |child| child.is_a? Analyst::Entities::LocalVariable }
+        @local_vars ||= contents.select { |entity| entity.is_a? Analyst::Entities::LocalVariable }
       end
 
       def name
-        const_node_array(ast.children.first).join('::')
+        const_node_array(name_node).join('::')
       end
 
       def full_name
@@ -36,9 +36,13 @@ module Analyst
 
       private
 
+      def name_node
+        ast.children.first
+      end
+
       def smethods
-        @smethods ||= children.select do |child|
-          child.is_a? Analyst::Entities::SingletonMethod
+        @smethods ||= contents.select do |entity|
+          entity.is_a? Analyst::Entities::SingletonMethod
         end
       end
 
