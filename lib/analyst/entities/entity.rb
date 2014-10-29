@@ -30,9 +30,11 @@ module Analyst
       attr_reader :ast
 
       def children
-        @children ||= ast.children.map do |child_node|
-          Analyst::Parser.process_node(child_node, self)
-        end
+        @children ||= Array(Analyst::Parser.process_node(content_node, self))
+      end
+
+      def content_node
+        ast.children.last
       end
 
     end

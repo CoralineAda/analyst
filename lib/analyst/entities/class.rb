@@ -36,12 +36,6 @@ module Analyst
 
       private
 
-      def children
-        name, superclass, content = ast.children
-        child_nodes = (content.type == :begin) ? content.children : [content]
-        child_nodes.map{ |child| Analyst::Parser.process_node(child, self) }
-      end
-
       def smethods
         @smethods ||= children.select do |child|
           child.is_a? Analyst::Entities::SingletonMethod

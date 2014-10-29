@@ -6,7 +6,7 @@ module Analyst
 
     extend Forwardable
 
-    attr_reader :context_stack, :start_path
+    attr_reader :start_path
 
     def_delegator :root, :classes
 
@@ -15,7 +15,8 @@ module Analyst
       :root => Entities::Root,
       :class => Entities::Class,
       :def => Entities::InstanceMethod,
-      :defs => Entities::SingletonMethod
+      :defs => Entities::SingletonMethod,
+      :begin => Entities::Begin
     # :module => :module_node_parser,
     # :def => :method_node_parser,
     # :send => :send_node_parser
@@ -27,9 +28,9 @@ module Analyst
       PROCESSORS[node.type].new(node, parent)
     end
 
+
     def initialize(ast)
       @ast = ast
-      @context_stack = ContextStack.new
     end
 
     def inspect
