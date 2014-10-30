@@ -62,6 +62,13 @@ module Analyst
         ast.children.last
       end
 
+      def process_node(node, parent=self)
+        Analyst::Parser.process_node(node, parent) }
+      end
+
+      def process_nodes(nodes, parent=self)
+        nodes.map { |node| process_node(node, parent) }
+      end
     end
   end
 end

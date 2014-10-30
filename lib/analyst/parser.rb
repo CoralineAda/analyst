@@ -20,7 +20,8 @@ module Analyst
       :begin => Entities::Begin,
       :module => Entities::Module,
       :send => Entities::MethodCall,
-      :sclass => Entities::SingletonClass
+      :sclass => Entities::SingletonClass,
+      :dstr => Entities::InterpolatedString
     # :def => :method_node_parser,
     # :send => :send_node_parser
     # TODO: make a method parser, which pushes the the context_stack so that things inside method bodies
