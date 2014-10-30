@@ -20,6 +20,10 @@ module Analyst
         some_methods + other_methods
       end
 
+      def all_methods
+        cmethods + imethods
+      end
+
       def singleton_class_blocks
         contents.select { |entity| entity.is_a? Analyst::Entities::SingletonClass }
       end
