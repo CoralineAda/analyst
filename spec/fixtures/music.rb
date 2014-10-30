@@ -30,6 +30,10 @@ class Singer < Artist
     new("#{first.sample} #{last.sample}", SUPER_ATTRS.dup)
   end
 
+  def songs
+    Song.where(artist: self)
+  end
+
   def sing
     "♬ Hang the DJ! ♬"
   end

@@ -15,13 +15,20 @@ module Analyst
         # abstract method.  btw, this feels wrong -- send should be an entity too.  but for now, whatevs.
       end
 
-      # TODO: should every Entity have these accessors? maybe they're mixins... but would that provide any benefit?
       def classes
         @classes ||= begin
           nested_classes = top_level_classes.map(&:classes).flatten
           namespaced_classes = top_level_modules.map(&:classes).flatten
           top_level_classes + nested_classes + namespaced_classes
         end
+      end
+
+      def constants
+        @constants ||= top_level_constants + contents.map(&:constants).flatten
+      end
+
+      def top_level_constants
+        @top_level_constants ||= contents_of_type(Entities::Constant)
       end
 
       def top_level_modules
@@ -63,7 +70,7 @@ module Analyst
       end
 
       def process_node(node, parent=self)
-        Analyst::Parser.process_node(node, parent) }
+        Analyst::Parser.process_node(node, parent)
       end
 
       def process_nodes(nodes, parent=self)

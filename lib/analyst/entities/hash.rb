@@ -7,7 +7,7 @@ module Analyst
       end
 
       def to_hash
-        @pairs.inject({}) do |hash, pair|
+        pairs.inject({}) do |hash, pair|
           hash[pair.key] = pair.value
           hash
         end

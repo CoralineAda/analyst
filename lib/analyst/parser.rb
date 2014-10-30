@@ -21,15 +21,17 @@ module Analyst
       :module => Entities::Module,
       :send => Entities::MethodCall,
       :sclass => Entities::SingletonClass,
-      :dstr => Entities::InterpolatedString
-    # :def => :method_node_parser,
-    # :send => :send_node_parser
-    # TODO: make a method parser, which pushes the the context_stack so that things inside method bodies
-    # are treated differently than those inside class or module bodies.  same with Block (right?)
-    )
+      :dstr => Entities::InterpolatedString,
+      :sym => Entities::Symbol,
+      :str => Entities::String,
+      :hash => Entities::Hash,
+      :pair => Entities::Pair,
+      :const => Entities::Constant
+   )
 
     def self.process_node(node, parent)
       return if node.nil? # TODO: maybe a Entities:Nil would be appropriate? maybe?
+      return unless node.respond_to?(:type)
       PROCESSORS[node.type].new(node, parent)
     end
 
