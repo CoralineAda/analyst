@@ -6,7 +6,7 @@
 module Analyst
 
   module Entities
-    class Class < Entity
+    class Class < Analyst::Entities::Module
 
       def imethods
         @imethods ||= contents.select { |entity| entity.is_a? Analyst::Entities::InstanceMethod }
@@ -26,37 +26,12 @@ module Analyst
         @local_vars ||= contents.select { |entity| entity.is_a? Analyst::Entities::LocalVariable }
       end
 
-      def name
-        const_node_array(name_node).join('::')
-      end
-
-      def full_name
-        parent.full_name.empty? ? name : parent.full_name + '::' + name
-      end
-
       private
-
-      def name_node
-        ast.children.first
-      end
 
       def smethods
         @smethods ||= contents.select do |entity|
           entity.is_a? Analyst::Entities::SingletonMethod
         end
-      end
-
-      # takes a (const) node and returns an array specifying the fully-qualified
-      # constant name that it represents.  ya know, so CoolModule::SubMod::SweetClass
-      # would be parsed to:
-      # (const
-      #   (const
-      #     (const nil :CoolModule) :SubMod) :SweetClass)
-      # and passing that node here would return [:CoolModule, :SubMod, :SweetClass]
-      def const_node_array(node)
-        return [] if node.nil?
-        raise "expected (const) node or nil, got (#{node.type})" unless node.type == :const
-        const_node_array(node.children.first) << node.children[1]
       end
 
       # ASSOCIATIONS = [:belongs_to, :has_one, :has_many, :has_and_belongs_to_many]

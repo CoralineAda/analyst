@@ -11,6 +11,7 @@ require_relative "analyst/entities/begin"
 require_relative "analyst/entities/module"
 require_relative "analyst/entities/class"
 require_relative "analyst/entities/method"
+require_relative "analyst/entities/method_call"
 require_relative "analyst/parser"
 require_relative "analyst/version"
 

@@ -1,14 +1,20 @@
 module Analyst
   module Entities
     class Module < Entity
+
       def name
-        const_node_array(ast.children.first).join('::')
+        const_node_array(name_node).join('::')
       end
+
       def full_name
         parent.full_name.empty? ? name : parent.full_name + '::' + name
       end
 
       private
+
+      def name_node
+        ast.children.first
+      end
 
       # takes a (const) node and returns an array specifying the fully-qualified
       # constant name that it represents.  ya know, so CoolModule::SubMod::SweetClass

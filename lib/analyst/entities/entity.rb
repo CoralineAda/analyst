@@ -25,13 +25,16 @@ module Analyst
       end
 
       def top_level_modules
-        @top_level_modules ||= contents.select { |entity| entity.is_a? Analyst::Entities::Module }
+        @top_level_modules ||= contents_of_type(Entities::Module)
       end
 
       def top_level_classes
-        @top_level_classes ||= contents.select { |entity| entity.is_a? Analyst::Entities::Class }
+        @top_level_classes ||= contents_of_type(Entities::Class)
       end
 
+      def method_calls
+        @method_calls ||= contents_of_type(Entities::MethodCall)
+      end
 
 
 
@@ -48,6 +51,10 @@ module Analyst
       private
 
       attr_reader :ast
+
+      def contents_of_type(klass)
+        contents.select { |entity| entity.is_a? klass }
+      end
 
       def contents
         @contents ||= Array(Analyst::Parser.process_node(content_node, self))

@@ -28,3 +28,5 @@ describe "Parser" do
 
 end
 
+#parser.classes.method_calls
+
