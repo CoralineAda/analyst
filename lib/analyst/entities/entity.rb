@@ -36,8 +36,6 @@ module Analyst
         @method_calls ||= contents_of_type(Entities::MethodCall)
       end
 
-
-
       def full_name
         throw "Subclass #{self.class.name} must implement #full_name"
       end

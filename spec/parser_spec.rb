@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe "Parser" do
 
@@ -27,6 +26,4 @@ describe "Parser" do
   end
 
 end
-
-#parser.classes.method_calls
 
