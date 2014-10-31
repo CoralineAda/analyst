@@ -18,8 +18,8 @@ describe Analyst::Entities::Entity do
   describe "#conditionals" do
 
     it "lists all conditionals from recursive search" do
-      conditionals = singer.conditionals
-      expect(conditionals).to match_array(["SUPER_ATTRS", "Song"])
+      conditionals = singer.imethods.map(&:conditionals).reject{|c| c.blank? }
+      expect(conditionals.count).to eq(1)
     end
 
   end
