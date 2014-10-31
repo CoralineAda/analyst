@@ -2,8 +2,8 @@ require 'ephemeral'
 require 'poro_plus'
 require 'fileutils'
 require 'haml'
+require 'parser/current'
 
-require_relative "analyst/analyzer"
 require_relative "analyst/entities/entity"
 require_relative "analyst/entities/empty"
 require_relative "analyst/entities/root"
@@ -12,6 +12,7 @@ require_relative "analyst/entities/module"
 require_relative "analyst/entities/class"
 require_relative "analyst/entities/interpolated_string"
 require_relative "analyst/entities/constant"
+require_relative "analyst/entities/conditional"
 require_relative "analyst/entities/method"
 require_relative "analyst/entities/method_call"
 require_relative "analyst/entities/singleton_class"

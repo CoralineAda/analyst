@@ -4,7 +4,6 @@ module Analyst
     class Constant < Entity
 
       def name
-        binding.pry
         const_node_array(ast).join("::")
       end
 

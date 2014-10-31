@@ -16,10 +16,11 @@ end
 class Singer < Artist
 
   SUPER_ATTRS = { singing: 10, dancing: 10, looks: 10 }
+  HIPSTER_THRESHOLD = 10
 
   class << self
     def sellouts
-      where(:album_sales > 10)
+      where(:album_sales > HIPSTER_THRESHOLD)
     end
   end
 
@@ -28,6 +29,14 @@ class Singer < Artist
     last = %w[Jackson Knowles Green Townsend]
 
     new("#{first.sample} #{last.sample}", SUPER_ATTRS.dup)
+  end
+
+  def status
+    if self.album_sales > HIPSTER_THRESHOLD
+      "sellout"
+    else
+      "cool"
+    end
   end
 
   def songs

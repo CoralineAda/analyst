@@ -15,4 +15,13 @@ describe Analyst::Entities::Entity do
 
   end
 
+  describe "#conditionals" do
+
+    it "lists all conditionals from recursive search" do
+      conditionals = singer.conditionals
+      expect(conditionals).to match_array(["SUPER_ATTRS", "Song"])
+    end
+
+  end
+
 end

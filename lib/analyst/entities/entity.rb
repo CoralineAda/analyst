@@ -43,6 +43,10 @@ module Analyst
         @method_calls ||= contents_of_type(Entities::MethodCall)
       end
 
+      def conditionals
+        @conditionals ||= contents.select { |entity| entity.is_a(Analyst::Entities::Conditional) }
+      end
+
       def full_name
         throw "Subclass #{self.class.name} must implement #full_name"
       end
