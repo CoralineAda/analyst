@@ -47,6 +47,10 @@ module Analyst
         @conditionals ||= contents.select { |entity| entity.is_a?(Analyst::Entities::Conditional) }
       end
 
+      def location
+        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos + 1)
+      end
+
       def full_name
         throw "Subclass #{self.class.name} must implement #full_name"
       end

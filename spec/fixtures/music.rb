@@ -27,7 +27,6 @@ class Singer < Artist
   def self.superstar
     first = %w[Michael Beyonce Cee-lo Devin]
     last = %w[Jackson Knowles Green Townsend]
-
     new("#{first.sample} #{last.sample}", SUPER_ATTRS.dup)
   end
 

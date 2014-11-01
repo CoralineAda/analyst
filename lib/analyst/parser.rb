@@ -36,7 +36,7 @@ module Analyst
     def self.process_node(node, parent)
       return if node.nil?
       return unless node.respond_to?(:type)
-      PROCESSORS[node.type].new(node, parent)
+      PROCESSORS[node.type].new(node, parent, )
     end
 
     def initialize(ast)
@@ -45,6 +45,10 @@ module Analyst
 
     def inspect
       "\#<#{self.class}:#{object_id}>"
+    end
+
+    def source_for(entity)
+
     end
 
     private
