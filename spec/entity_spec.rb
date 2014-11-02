@@ -7,9 +7,9 @@ describe Analyst::Entities::Entity do
 
   describe "#constants" do
     it "lists all constants from recursive search" do
-      constants = singer.constants.select{|c| c.is_a? Analyst::Entities::Constant}
-      constants = constants.map(&:full_name)
-      expect(constants).to match_array(["SUPER_ATTRS", "Song"])
+      constants = singer.constants.map(&:full_name)
+      expected = %w[SUPER_ATTRS HIPSTER_THRESHOLD Song Performance::Equipment::Microphone]
+      expect(constants).to match_array expected
     end
   end
 
@@ -20,21 +20,37 @@ describe Analyst::Entities::Entity do
     end
   end
 
-  describe "::location" do
+  describe "#location" do
+    let(:code) do <<-CODE
+class Foo
+  attr_accessor :bar
+end
+
+class Baz
+  def initialize
+    puts "Fresh Baz!"
+  end
+end
+    CODE
+    end
+
+    let(:parser) { Analyst.for_source(code) }
+
     context "returns the source code location" do
-      before do
-        @location = singer.location
-      end
+      let(:baz) { parser.classes.detect {|klass| klass.name == "Baz"} }
+      let(:location) { baz.location }
+
       it "includes the start position" do
-        expect(@location.begin).to eq(198)
+        expect(location.begin).to eq code.index("class Baz")
       end
+
       it "includes the end position" do
-        expect(@location.end).to eq(777)
+        expect(location.end).to eq code.size
       end
     end
   end
 
-  describe "::source" do
+  describe "#source" do
     let(:test_method) { singer.imethods.first }
     before do
       allow(singer).to receive(:location) { Range.new(577..683)}

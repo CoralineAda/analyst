@@ -31,12 +31,12 @@ module Analyst
       :and_sgn  => Entities::Conditional,
       :or       => Entities::Conditional,
       :and      => Entities::Conditional
-   )
+    )
 
     def self.process_node(node, parent)
       return if node.nil?
       return unless node.respond_to?(:type)
-      PROCESSORS[node.type].new(node, parent, )
+      PROCESSORS[node.type].new(node, parent)
     end
 
     def initialize(ast)
@@ -48,7 +48,7 @@ module Analyst
     end
 
     def source_for(entity)
-
+      #TODO: implement me
     end
 
     private

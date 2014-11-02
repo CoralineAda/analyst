@@ -18,14 +18,18 @@ module Analyst
       end
 
       def constants
-        if target_is_constant?
-          super
-        else
+        if target.is_a? Analyst::Entities::Constant
           super << target
+        else
+          super
         end
       end
 
       private
+
+      def contents
+        arguments
+      end
 
       def target_node
         ast.children.first
@@ -33,10 +37,6 @@ module Analyst
 
       def target
         process_node(target_node)
-      end
-
-      def target_is_constant?
-        target.is_a?(Analyst::Entities::Constant)
       end
 
       def name_node
