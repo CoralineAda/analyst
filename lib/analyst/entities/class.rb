@@ -10,6 +10,10 @@ module Analyst
 
       alias :macros :method_calls
 
+      def kind
+        "Class"
+      end
+
       def imethods
         @imethods ||= contents.select { |entity| entity.is_a? Analyst::Entities::InstanceMethod }
       end

@@ -2,6 +2,9 @@ module Analyst
   module Entities
 
     class InstanceMethod < Entity
+      def kind
+        "Instance Method"
+      end
       def name
         ast.children.first.to_s
       end
@@ -12,6 +15,9 @@ module Analyst
 
     # TODO HERE
     class ClassMethod < Entity
+      def kind
+        "Class Method"
+      end
       def name
         ast.children.first.to_s
       end

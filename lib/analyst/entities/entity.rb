@@ -3,7 +3,7 @@ module Analyst
   module Entities
     class Entity
 
-      attr_reader :parent
+      attr_reader :parent, :ast
 
       def initialize(ast, parent)
         @parent = parent
@@ -20,6 +20,13 @@ module Analyst
           nested_classes = top_level_classes.map(&:classes).flatten
           namespaced_classes = top_level_modules.map(&:classes).flatten
           top_level_classes + nested_classes + namespaced_classes
+        end
+      end
+
+      def modules
+        @modules ||= begin
+          nested_modules = top_level_modules.map(&:modules).flatten
+          top_level_modules + nested_modules
         end
       end
 
@@ -43,8 +50,9 @@ module Analyst
         @method_calls ||= contents_of_type(Entities::MethodCall)
       end
 
+      # This needs to recurse through all children
       def conditionals
-        @conditionals ||= contents.select { |entity| entity.is_a?(Analyst::Entities::Conditional) }
+        @conditionals ||= contents_of_type(Entities::Conditional)
       end
 
       def location
@@ -62,8 +70,6 @@ module Analyst
       end
 
       private
-
-      attr_reader :ast
 
       def contents_of_type(klass)
         contents.select { |entity| entity.is_a? klass }

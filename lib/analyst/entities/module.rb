@@ -2,6 +2,10 @@ module Analyst
   module Entities
     class Module < Entity
 
+      def kind
+        "Module"
+      end
+
       def name
         const_node_array(name_node).join('::')
       end

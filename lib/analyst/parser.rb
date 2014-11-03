@@ -7,9 +7,9 @@ module Analyst
 
     extend Forwardable
 
-    attr_reader :start_path
+    attr_reader :start_path, :ast
 
-    def_delegators :root, :classes, :top_level_classes
+    def_delegators :root, :classes, :top_level_classes, :modules, :top_level_modules
 
     PROCESSORS = Hash.new(Entities::Empty).merge!(
       :root     => Entities::Root,
@@ -36,7 +36,11 @@ module Analyst
     def self.process_node(node, parent)
       return if node.nil?
       return unless node.respond_to?(:type)
-      PROCESSORS[node.type].new(node, parent, )
+      PROCESSORS[node.type].new(node, parent)
+    end
+
+    def self.from_source(source)
+      new(::Parser::AST::Node.new(:root, [::Parser::CurrentRuby.parse(source)]))
     end
 
     def initialize(ast)
@@ -45,10 +49,6 @@ module Analyst
 
     def inspect
       "\#<#{self.class}:#{object_id}>"
-    end
-
-    def source_for(entity)
-
     end
 
     private
