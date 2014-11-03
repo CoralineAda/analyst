@@ -31,7 +31,7 @@ module Analyst
       :and_sgn  => Entities::Conditional,
       :or       => Entities::Conditional,
       :and      => Entities::Conditional
-   )
+    )
 
     def self.process_node(node, parent)
       return if node.nil?
@@ -49,6 +49,10 @@ module Analyst
 
     def inspect
       "\#<#{self.class}:#{object_id}>"
+    end
+
+    def source_for(entity)
+      #TODO: implement me
     end
 
     private

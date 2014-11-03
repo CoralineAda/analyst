@@ -12,6 +12,7 @@ module Analyst
       end
 
       def constants
+        []
       end
 
     private

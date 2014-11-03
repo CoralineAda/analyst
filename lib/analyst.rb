@@ -28,6 +28,10 @@ module Analyst
     Analyst::Parser.new(FileProcessor.new(path_to_files).ast)
   end
 
+  def self.for_source(source)
+    Analyst::Parser.new(SourceProcessor.new(source).ast)
+  end
+
   class FileProcessor
 
     attr_reader :path_to_files
@@ -45,12 +49,33 @@ module Analyst
     end
 
     def ast
-      ::Parser::AST::Node.new(
-        :root, source_files.map do |file|
-          content = File.open(file, "r").read
-          ::Parser::CurrentRuby.parse(content)
-        end
-      )
+      asts = source_files.map do |file|
+        content = File.open(file, "r").read
+        ::Parser::CurrentRuby.parse(content)
+      end
+      AstCompiler.compile(asts)
+    end
+
+  end
+
+  class SourceProcessor
+
+    attr_reader :source
+
+    def initialize(source)
+      @source = source
+    end
+
+    def ast
+      AstCompiler.compile ::Parser::CurrentRuby.parse(source)
+    end
+  end
+
+  module AstCompiler
+
+    def self.compile(asts)
+      asts = Array(asts)
+      ::Parser::AST::Node.new(:root, asts)
     end
 
   end

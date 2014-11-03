@@ -43,7 +43,8 @@ class Singer < Artist
   end
 
   def sing
-    "♬ Hang the DJ! ♬"
+    mic = Performance::Equipment::Microphone
+    mic.shout "♬ Hang the DJ! ♬"
   end
 end
 
@@ -76,6 +77,9 @@ end
 module Performances
   module Equipment
     class Amp
+    end
+
+    class Microphone
     end
   end
 end

@@ -7,7 +7,7 @@ module Analyst
       end
 
       def name
-        const_node_array(name_node).join('::')
+        name_entity.name
       end
 
       def full_name
@@ -16,21 +16,12 @@ module Analyst
 
       private
 
-      def name_node
-        ast.children.first
+      def name_entity
+        @name_entity ||= Analyst::Parser.process_node(name_node, self)
       end
 
-      # takes a (const) node and returns an array specifying the fully-qualified
-      # constant name that it represents.  ya know, so CoolModule::SubMod::SweetClass
-      # would be parsed to:
-      # (const
-      #   (const
-      #     (const nil :CoolModule) :SubMod) :SweetClass)
-      # and passing that node here would return [:CoolModule, :SubMod, :SweetClass]
-      def const_node_array(node)
-        return [] if node.nil?
-        raise "expected (const) node or nil, got (#{node.type})" unless node.type == :const
-        const_node_array(node.children.first) << node.children[1]
+      def name_node
+        ast.children.first
       end
     end
   end
