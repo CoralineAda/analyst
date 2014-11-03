@@ -44,7 +44,7 @@ module Analyst
       end
 
       def conditionals
-        @conditionals ||= contents.select { |entity| entity.is_a?(Analyst::Entities::Conditional) }
+        @conditionals ||= contents_of_type(Entities::Conditional)
       end
 
       def location
