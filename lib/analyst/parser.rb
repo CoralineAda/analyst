@@ -55,6 +55,10 @@ module Analyst
       #TODO: implement me
     end
 
+    def top_level_entities
+      root.contents
+    end
+
     private
 
     def root

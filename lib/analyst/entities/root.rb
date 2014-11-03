@@ -7,8 +7,6 @@ module Analyst
         ""
       end
 
-      private
-
       def contents
         @contents ||= begin
           child_nodes = ast.children
