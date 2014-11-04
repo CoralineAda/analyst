@@ -74,7 +74,9 @@ module Analyst
   module AstCompiler
 
     def self.compile(asts)
-      asts = Array(asts)
+      asts = asts.is_a?(Array) ? asts : [asts]
+      # NOTE: `asts = Array(asts)` is problematic due to some implementation
+      # detail of ::Parser::AST::Node, so above line is necessary
       ::Parser::AST::Node.new(:root, asts)
     end
 

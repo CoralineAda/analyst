@@ -9,7 +9,7 @@ module Analyst
 
     attr_reader :start_path
 
-    def_delegators :root, :classes, :top_level_classes
+    def_delegators :root, :classes, :top_level_classes, :constants
 
     PROCESSORS = Hash.new(Entities::Empty).merge!(
       :root     => Entities::Root,

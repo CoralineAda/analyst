@@ -4,7 +4,7 @@ module Analyst
     class String < Entity
 
       def value
-        node.children.first
+        ast.children.first
       end
 
       def name
