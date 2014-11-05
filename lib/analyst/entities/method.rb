@@ -3,6 +3,8 @@ module Analyst
 
     class InstanceMethod < Entity
 
+      handles_node :def
+
       def name
         ast.children.first.to_s
       end
@@ -24,6 +26,8 @@ module Analyst
     end
 
     class SingletonMethod < Entity
+
+      handles_node :defs
 
       # NOTE: not a public API -- used by Entities::Class
       def target

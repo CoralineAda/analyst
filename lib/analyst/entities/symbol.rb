@@ -3,6 +3,8 @@ module Analyst
   module Entities
     class Symbol < Entity
 
+      handles_node :sym
+
       def value
         ast.children.first
       end

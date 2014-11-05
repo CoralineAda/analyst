@@ -3,6 +3,8 @@ module Analyst
   module Entities
     class SingletonClass < Entity
 
+      handles_node :sclass
+
       def full_name
         parent.full_name + "!SINGLETON"
       end

@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'pry'
+require_relative 'entities/unhandled'
 
 module Analyst
 
@@ -12,28 +12,12 @@ module Analyst
     def_delegators :root, :classes, :top_level_classes, :constants,
                           :methods
 
-    PROCESSORS = Hash.new(Entities::Empty).merge!(
-      :root     => Entities::Root,
-      :class    => Entities::Class,
-      :def      => Entities::InstanceMethod,
-      :defs     => Entities::SingletonMethod,
-      :begin    => Entities::CodeBlock,
-      :module   => Entities::Module,
-      :send     => Entities::MethodCall,
-      :sclass   => Entities::SingletonClass,
-      :dstr     => Entities::InterpolatedString,
-      :sym      => Entities::Symbol,
-      :str      => Entities::String,
-      :hash     => Entities::Hash,
-      :pair     => Entities::Pair,
-      :const    => Entities::Constant,
-      :if       => Entities::Conditional,
-      :or_asgn  => Entities::Conditional,
-      :and_sgn  => Entities::Conditional,
-      :or       => Entities::Conditional,
-      :and      => Entities::Conditional,
-      :array    => Entities::Array
-    )
+    PROCESSORS = Hash.new(Entities::Unhandled)
+
+    def self.register_processor(type, processor)
+      raise "(#{type}) nodes already registered by #{PROCESSORS[type]}" if PROCESSORS.key? type
+      PROCESSORS[type] = processor
+    end
 
     def self.process_node(node, parent)
       return if node.nil?

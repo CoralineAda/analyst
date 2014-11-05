@@ -1,9 +1,15 @@
+require_relative '../parser'
+
 # An entity is a named node of a given type which may have additional properties
 module Analyst
   module Entities
     class Entity
 
       attr_reader :parent
+
+      def self.handles_node(type)
+        Analyst::Parser.register_processor(type, self)
+      end
 
       def initialize(ast, parent)
         @parent = parent

@@ -2,6 +2,9 @@ module Analyst
 
   module Entities
     class Hash < Entity
+
+      handles_node :hash
+
       def pairs
         @pairs ||= process_nodes(ast.children)
       end

@@ -3,6 +3,8 @@ module Analyst
   module Entities
     class Root < Entity
 
+      handles_node :root
+
       def full_name
         ""
       end

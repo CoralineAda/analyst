@@ -2,6 +2,8 @@ module Analyst
   module Entities
     class Module < Entity
 
+      handles_node :module
+
       def name
         name_entity.name
       end

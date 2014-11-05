@@ -3,6 +3,8 @@ module Analyst
   module Entities
     class Array < Entity
 
+      handles_node :array
+
       private
 
       def contents

@@ -3,6 +3,8 @@ module Analyst
   module Entities
     class Constant < Entity
 
+      handles_node :const
+
       def name
         const_node_array(ast).join("::")
       end

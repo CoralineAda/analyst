@@ -4,6 +4,8 @@ module Analyst
     class CodeBlock < Entity
       extend Forwardable
 
+      handles_node :begin
+
       def_delegators :parent, :name, :full_name
 
       def contents

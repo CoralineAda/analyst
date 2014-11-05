@@ -2,6 +2,8 @@ module Analyst
   module Entities
     class MethodCall < Entity
 
+      handles_node :send
+
       def name
         name_node.to_s
       end
