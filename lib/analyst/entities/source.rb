@@ -14,7 +14,7 @@ module Analyst
         "$PARSED FROM SOURCE$"
       end
 
-      def source
+      def origin_source
         parent.source_data_for(self)
       end
 
@@ -26,6 +26,10 @@ module Analyst
       end
 
       private
+
+      def source_range
+        0..-1
+      end
 
       def actual_contents
         @actual_contents ||= ast.children.map { |child| process_node(child) }

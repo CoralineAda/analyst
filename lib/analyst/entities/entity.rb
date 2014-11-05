@@ -56,11 +56,11 @@ module Analyst
       end
 
       def location
-        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos + 1)
+        "#{file_path}:#{line_number}"
       end
 
       def file_path
-        parent.file_path #note: must terminate at a Entities::File or Entities::Source
+        parent.file_path
       end
 
       def line_number
@@ -68,7 +68,11 @@ module Analyst
       end
 
       def source
-        throw "Retrieve source for this Entity -- not yet implemented"
+        origin_source[source_range]
+      end
+
+      def origin_source
+        parent.origin_source
       end
 
       def full_name
@@ -76,14 +80,18 @@ module Analyst
       end
 
       def inspect
-        "\#<#{self.class}:#{object_id} full_name=#{full_name}>"
+        "\#<#{self.class} location=#{location} full_name=#{full_name}>"
       rescue
-        "\#<#{self.class}:#{object_id}>"
+        "\#<#{self.class} location=#{location}>"
       end
 
       private
 
       attr_reader :ast
+
+      def source_range
+        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos)
+      end
 
       def contents_of_type(klass)
         contents.select { |entity| entity.is_a? klass }

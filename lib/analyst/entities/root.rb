@@ -23,6 +23,10 @@ module Analyst
         throw "Entity tree malformed - Source or File should have caught this call"
       end
 
+      def origin_source
+        throw "Entity tree malformed - Source or File hsould have caught this call"
+      end
+
       private
 
       attr_reader :source_data

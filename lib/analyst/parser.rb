@@ -42,10 +42,6 @@ module Analyst
       "\#<#{self.class}:#{object_id}>"
     end
 
-    def source_for(entity)
-      #TODO: implement me
-    end
-
     private
 
     attr_reader :root

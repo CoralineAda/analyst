@@ -14,8 +14,8 @@ module Analyst
         parent.source_data_for(self)
       end
 
-      def source
-        File.open(file_path, 'r').read
+      def origin_source
+        ::File.open(file_path, 'r').read
       end
 
       def contents
@@ -26,6 +26,10 @@ module Analyst
       end
 
       private
+
+      def source_range
+        0..-1
+      end
 
       def actual_contents
         @actual_contents ||= ast.children.map { |child| process_node(child) }
