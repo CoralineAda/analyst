@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Parser" do
 
-  let(:parser) { Analyst.new("./spec/fixtures/music.rb") }
+  let(:parser) { Analyst.for_file("./spec/fixtures/music.rb") }
 
   describe "#top_level_classes" do
 

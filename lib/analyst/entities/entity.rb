@@ -59,6 +59,18 @@ module Analyst
         Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos + 1)
       end
 
+      def file_path
+        parent.file_path #note: must terminate at a Entities::File or Entities::Source
+      end
+
+      def line_number
+        ast.loc.line
+      end
+
+      def source
+        throw "Retrieve source for this Entity -- not yet implemented"
+      end
+
       def full_name
         throw "Subclass #{self.class.name} must implement #full_name"
       end

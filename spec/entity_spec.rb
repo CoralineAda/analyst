@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Analyst::Entities::Entity do
 
-  let(:parser) { Analyst.new("./spec/fixtures/music.rb") }
+  let(:parser) { Analyst.for_file("./spec/fixtures/music.rb") }
   let(:singer) { parser.classes.detect{ |klass| klass.name == "Singer" }}
 
   describe "#constants" do

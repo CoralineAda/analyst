@@ -15,7 +15,9 @@ module Analyst
     PROCESSORS = Hash.new(Entities::Unhandled)
 
     def self.register_processor(type, processor)
-      raise "(#{type}) nodes already registered by #{PROCESSORS[type]}" if PROCESSORS.key? type
+      if PROCESSORS.key? type
+        raise "(#{type}) nodes already registered by #{PROCESSORS[type]}"
+      end
       PROCESSORS[type] = processor
     end
 
@@ -25,8 +27,34 @@ module Analyst
       PROCESSORS[node.type].new(node, parent)
     end
 
-    def initialize(ast)
-      @ast = ast
+
+    def self.for_files(path_to_files)
+      file_paths = if File.directory?(path_to_files)
+        Dir.glob(File.join(path_to_files, "**", "*.rb"))
+      else
+        [path_to_files]
+      end
+
+      wrapped_asts = file_paths.map do |path|
+        ast = ::Parser::CurrentRuby.parse(File.open(path, 'r').read)
+        ::Parser::AST::Node.new(:analyst_file, [ast])
+      end
+
+      root_node = ::Parser::AST::Node.new(:analyst_root, wrapped_asts)
+      root = Entities::Root.new(root_node, file_paths)
+      new(root)
+    end
+
+    def self.for_source(source)
+      ast = ::Parser::CurrentRuby.parse(source)
+      wrapped_ast = ::Parser::AST::Node.new(:analyst_source, [ast])
+      root_node = ::Parser::AST::Node.new(:analyst_root, [wrapped_ast])
+      root = Entities::Root.new(root_node, [source])
+      new(root)
+    end
+
+    def initialize(root)
+      @root = root
     end
 
     def inspect
@@ -39,9 +67,7 @@ module Analyst
 
     private
 
-    def root
-      @root ||= self.class.process_node(@ast, nil)
-    end
+    attr_reader :root
 
   end
 
