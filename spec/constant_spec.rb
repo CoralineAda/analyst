@@ -8,7 +8,6 @@ describe Analyst::Entities::Constant do
 
       it "correctly reports the name" do
         analyzer = Analyst.for_source(source)
-        debugger
         expect(analyzer.constants.first.name).to eq source
       end
     end
@@ -17,7 +16,8 @@ describe Analyst::Entities::Constant do
       let(:source) { "Body::Organs::Pancreas" }
 
       it "correctly reports the name" do
-        expect(Analyst.for_source(source).constants.first.name).to eq source
+        analyzer = Analyst.for_source(source)
+        expect(analyzer.constants.first.name).to eq source
       end
 
     end

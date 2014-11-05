@@ -10,10 +10,14 @@ module Analyst
       private
 
       def contents
-        @contents ||= begin
-          child_nodes = ast.children
-          child_nodes.map { |child| Analyst::Parser.process_node(child, self) }.flatten
-        end
+        @contents ||= actual_contents.map do |child|
+          # skip top-level CodeBlocks
+          child.is_a?(Entities::CodeBlock) ? child.contents : child
+        end.flatten
+      end
+
+      def actual_contents
+        @actual_contents ||= ast.children.map { |child| process_node(child) }
       end
 
     end

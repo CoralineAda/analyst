@@ -10,11 +10,6 @@ module Analyst
         @ast = ast
       end
 
-      def handle_send_node(node)
-        # raise "Subclass must implement handle_send_node"
-        # abstract method.  btw, this feels wrong -- send should be an entity too.  but for now, whatevs.
-      end
-
       def classes
         @classes ||= begin
           nested_classes = top_level_classes.map(&:classes).flatten
@@ -41,6 +36,13 @@ module Analyst
 
       def method_calls
         @method_calls ||= contents_of_type(Entities::MethodCall)
+      end
+
+      # TODO: rethink the different kinds of Methods. there's really only one
+      # kind of Method, right??
+      # ref: http://www.devalot.com/articles/2008/09/ruby-singleton
+      def methods
+        @methods ||= contents_of_type(Entities::InstanceMethod)
       end
 
       def conditionals
@@ -70,7 +72,15 @@ module Analyst
       end
 
       def contents
-        @contents ||= Array(Analyst::Parser.process_node(content_node, self))
+        @contents ||= if actual_contents.is_a? Entities::CodeBlock
+                        actual_contents.contents
+                      else
+                        Array(actual_contents)
+                      end
+      end
+
+      def actual_contents
+        @actual_contents ||= process_node(content_node)
       end
 
       def content_node

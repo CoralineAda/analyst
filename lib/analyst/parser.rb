@@ -9,14 +9,15 @@ module Analyst
 
     attr_reader :start_path
 
-    def_delegators :root, :classes, :top_level_classes, :constants
+    def_delegators :root, :classes, :top_level_classes, :constants,
+                          :methods
 
     PROCESSORS = Hash.new(Entities::Empty).merge!(
       :root     => Entities::Root,
       :class    => Entities::Class,
       :def      => Entities::InstanceMethod,
       :defs     => Entities::SingletonMethod,
-      :begin    => Entities::Begin,
+      :begin    => Entities::CodeBlock,
       :module   => Entities::Module,
       :send     => Entities::MethodCall,
       :sclass   => Entities::SingletonClass,

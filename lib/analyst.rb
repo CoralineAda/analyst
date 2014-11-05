@@ -7,7 +7,7 @@ require 'parser/current'
 require_relative "analyst/entities/entity"
 require_relative "analyst/entities/empty"
 require_relative "analyst/entities/root"
-require_relative "analyst/entities/begin"
+require_relative "analyst/entities/code_block"
 require_relative "analyst/entities/module"
 require_relative "analyst/entities/class"
 require_relative "analyst/entities/interpolated_string"
