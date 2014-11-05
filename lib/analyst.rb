@@ -1,10 +1,9 @@
-require 'ephemeral'
-require 'poro_plus'
 require 'fileutils'
 require 'haml'
 require 'parser/current'
 
 require_relative "analyst/parser"
+require_relative "analyst/processor"
 require_relative "analyst/version"
 require_relative "analyst/entities/entity"
 require_relative "analyst/entities/root"

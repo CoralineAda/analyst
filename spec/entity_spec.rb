@@ -50,7 +50,7 @@ describe Analyst::Entities::Entity do
 
   describe "#conditionals" do
     it "lists all conditionals from recursive search" do
-      conditionals = singer.imethods.map(&:conditionals).reject{|c| c.blank? }
+      conditionals = singer.imethods.map(&:conditionals).flatten
       expect(conditionals.count).to eq(1)
     end
   end

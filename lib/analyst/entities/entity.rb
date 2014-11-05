@@ -1,4 +1,4 @@
-require_relative '../parser'
+require_relative '../processor'
 
 # An entity is a named node of a given type which may have additional properties
 module Analyst
@@ -8,7 +8,7 @@ module Analyst
       attr_reader :parent
 
       def self.handles_node(type)
-        Analyst::Parser.register_processor(type, self)
+        Analyst::Processor.register_processor(type, self)
       end
 
       def initialize(ast, parent)
@@ -106,7 +106,7 @@ module Analyst
       end
 
       def process_node(node, parent=self)
-        Analyst::Parser.process_node(node, parent)
+        Analyst::Processor.process_node(node, parent)
       end
 
       def process_nodes(nodes, parent=self)
