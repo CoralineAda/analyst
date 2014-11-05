@@ -31,7 +31,8 @@ module Analyst
       :or_asgn  => Entities::Conditional,
       :and_sgn  => Entities::Conditional,
       :or       => Entities::Conditional,
-      :and      => Entities::Conditional
+      :and      => Entities::Conditional,
+      :array    => Entities::Array
     )
 
     def self.process_node(node, parent)

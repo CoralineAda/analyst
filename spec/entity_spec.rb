@@ -25,7 +25,7 @@ describe Analyst::Entities::Entity do
       CODE
 
       found = Analyst.for_source(code).constants.map(&:full_name)
-      expect(found).to match_array %w[Stamp Envelop Postcard]
+      expect(found).to match_array %w[Stamp Envelope Postcard]
     end
 
     it "finds constants inside of method calls" do
