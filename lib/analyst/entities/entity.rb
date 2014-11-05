@@ -1,4 +1,4 @@
-require_relative '../parser'
+require_relative '../processor'
 
 # An entity is a named node of a given type which may have additional properties
 module Analyst
@@ -8,7 +8,7 @@ module Analyst
       attr_reader :parent
 
       def self.handles_node(type)
-        Analyst::Parser.register_processor(type, self)
+        Analyst::Processor.register_processor(type, self)
       end
 
       def initialize(ast, parent)
@@ -56,7 +56,23 @@ module Analyst
       end
 
       def location
-        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos + 1)
+        "#{file_path}:#{line_number}"
+      end
+
+      def file_path
+        parent.file_path
+      end
+
+      def line_number
+        ast.loc.line
+      end
+
+      def source
+        origin_source[source_range]
+      end
+
+      def origin_source
+        parent.origin_source
       end
 
       def full_name
@@ -64,14 +80,18 @@ module Analyst
       end
 
       def inspect
-        "\#<#{self.class}:#{object_id} full_name=#{full_name}>"
+        "\#<#{self.class} location=#{location} full_name=#{full_name}>"
       rescue
-        "\#<#{self.class}:#{object_id}>"
+        "\#<#{self.class} location=#{location}>"
       end
 
       private
 
       attr_reader :ast
+
+      def source_range
+        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos)
+      end
 
       def contents_of_type(klass)
         contents.select { |entity| entity.is_a? klass }
@@ -94,7 +114,7 @@ module Analyst
       end
 
       def process_node(node, parent=self)
-        Analyst::Parser.process_node(node, parent)
+        Analyst::Processor.process_node(node, parent)
       end
 
       def process_nodes(nodes, parent=self)
