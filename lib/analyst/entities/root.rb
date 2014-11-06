@@ -27,16 +27,16 @@ module Analyst
         throw "Entity tree malformed - Source or File hsould have caught this call"
       end
 
-      private
-
-      attr_reader :source_data
-
       def contents
         # skip all top-level entities, cuz they're all Files and Sources
         @contents ||= actual_contents.map(&:contents).flatten
       end
 
-      def actual_contents
+       private
+
+      attr_reader :source_data
+
+     def actual_contents
         @actual_contents ||= ast.children.map { |child| process_node(child) }
       end
 
