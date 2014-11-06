@@ -8,6 +8,8 @@ module Analyst
   module Entities
     class Class < Analyst::Entities::Module
 
+      handles_node :class
+
       alias :macros :method_calls
 
       def kind

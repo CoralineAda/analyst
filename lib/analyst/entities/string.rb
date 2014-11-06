@@ -3,8 +3,10 @@ module Analyst
   module Entities
     class String < Entity
 
+      handles_node :str
+
       def value
-        node.children.first
+        ast.children.first
       end
 
       def name

@@ -1,3 +1,5 @@
+require_relative '../processor'
+
 # An entity is a named node of a given type which may have additional properties
 module Analyst
   module Entities
@@ -5,14 +7,13 @@ module Analyst
 
       attr_reader :parent, :ast
 
+      def self.handles_node(type)
+        Analyst::Processor.register_processor(type, self)
+      end
+
       def initialize(ast, parent)
         @parent = parent
         @ast = ast
-      end
-
-      def handle_send_node(node)
-        # raise "Subclass must implement handle_send_node"
-        # abstract method.  btw, this feels wrong -- send should be an entity too.  but for now, whatevs.
       end
 
       def classes
@@ -50,13 +51,35 @@ module Analyst
         @method_calls ||= contents_of_type(Entities::MethodCall)
       end
 
-      # This needs to recurse through all children
+      # TODO: rethink the different kinds of Methods. there's really only one
+      # kind of Method, right??
+      # ref: http://www.devalot.com/articles/2008/09/ruby-singleton
+      def methods
+        @methods ||= contents_of_type(Entities::InstanceMethod)
+      end
+
       def conditionals
         @conditionals ||= contents_of_type(Entities::Conditional)
       end
 
       def location
-        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos + 1)
+        "#{file_path}:#{line_number}"
+      end
+
+      def file_path
+        parent.file_path
+      end
+
+      def line_number
+        ast.loc.line
+      end
+
+      def source
+        origin_source[source_range]
+      end
+
+      def origin_source
+        parent.origin_source
       end
 
       def full_name
@@ -64,19 +87,31 @@ module Analyst
       end
 
       def inspect
-        "\#<#{self.class}:#{object_id} full_name=#{full_name}>"
+        "\#<#{self.class} location=#{location} full_name=#{full_name}>"
       rescue
-        "\#<#{self.class}:#{object_id}>"
+        "\#<#{self.class} location=#{location}>"
       end
 
       private
+
+      def source_range
+        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos)
+      end
 
       def contents_of_type(klass)
         contents.select { |entity| entity.is_a? klass }
       end
 
       def contents
-        @contents ||= Array(Analyst::Parser.process_node(content_node, self))
+        @contents ||= if actual_contents.is_a? Entities::CodeBlock
+                        actual_contents.contents
+                      else
+                        Array(actual_contents)
+                      end
+      end
+
+      def actual_contents
+        @actual_contents ||= process_node(content_node)
       end
 
       def content_node
@@ -84,7 +119,7 @@ module Analyst
       end
 
       def process_node(node, parent=self)
-        Analyst::Parser.process_node(node, parent)
+        Analyst::Processor.process_node(node, parent)
       end
 
       def process_nodes(nodes, parent=self)

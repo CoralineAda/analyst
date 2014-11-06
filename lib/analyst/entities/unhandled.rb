@@ -1,7 +1,9 @@
+require_relative 'entity'
+
 module Analyst
 
   module Entities
-    class Empty < Entity
+    class Unhandled < Entity
       def full_name
         ""
       end

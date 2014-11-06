@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'pry'
 
 module Analyst
 
@@ -7,52 +6,40 @@ module Analyst
 
     extend Forwardable
 
-    attr_reader :start_path, :ast
+    def_delegators :root, :classes, :top_level_classes, :constants,
+                          :methods
 
-    def_delegators :root, :classes, :top_level_classes, :modules, :top_level_modules
+    def self.for_files(path_to_files)
+      file_paths = if File.directory?(path_to_files)
+        Dir.glob(File.join(path_to_files, "**", "*.rb"))
+      else
+        [path_to_files]
+      end
 
-    PROCESSORS = Hash.new(Entities::Empty).merge!(
-      :root     => Entities::Root,
-      :class    => Entities::Class,
-      :def      => Entities::InstanceMethod,
-      :defs     => Entities::SingletonMethod,
-      :begin    => Entities::Begin,
-      :module   => Entities::Module,
-      :send     => Entities::MethodCall,
-      :sclass   => Entities::SingletonClass,
-      :dstr     => Entities::InterpolatedString,
-      :sym      => Entities::Symbol,
-      :str      => Entities::String,
-      :hash     => Entities::Hash,
-      :pair     => Entities::Pair,
-      :const    => Entities::Constant,
-      :if       => Entities::Conditional,
-      :or_asgn  => Entities::Conditional,
-      :and_sgn  => Entities::Conditional,
-      :or       => Entities::Conditional,
-      :and      => Entities::Conditional
-    )
+      wrapped_asts = file_paths.map do |path|
+        ast = ::Parser::CurrentRuby.parse(File.open(path, 'r').read)
+        ::Parser::AST::Node.new(:analyst_file, [ast])
+      end
 
-    def self.process_node(node, parent)
-      return if node.nil?
-      return unless node.respond_to?(:type)
-      PROCESSORS[node.type].new(node, parent)
+      root_node = ::Parser::AST::Node.new(:analyst_root, wrapped_asts)
+      root = Entities::Root.new(root_node, file_paths)
+      new(root)
     end
 
-    def self.from_source(source)
-      new(::Parser::AST::Node.new(:root, [::Parser::CurrentRuby.parse(source)]))
+    def self.for_source(source)
+      ast = ::Parser::CurrentRuby.parse(source)
+      wrapped_ast = ::Parser::AST::Node.new(:analyst_source, [ast])
+      root_node = ::Parser::AST::Node.new(:analyst_root, [wrapped_ast])
+      root = Entities::Root.new(root_node, [source])
+      new(root)
     end
 
-    def initialize(ast)
-      @ast = ast
+    def initialize(root)
+      @root = root
     end
 
     def inspect
       "\#<#{self.class}:#{object_id}>"
-    end
-
-    def source_for(entity)
-      #TODO: implement me
     end
 
     def top_level_entities
@@ -61,9 +48,7 @@ module Analyst
 
     private
 
-    def root
-      @root ||= self.class.process_node(@ast, nil)
-    end
+    attr_reader :root
 
   end
 

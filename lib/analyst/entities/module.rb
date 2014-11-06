@@ -2,6 +2,8 @@ module Analyst
   module Entities
     class Module < Entity
 
+      handles_node :module
+
       def kind
         "Module"
       end
@@ -17,7 +19,7 @@ module Analyst
       private
 
       def name_entity
-        @name_entity ||= Analyst::Parser.process_node(name_node, self)
+        @name_entity ||= process_node(name_node)
       end
 
       def name_node
