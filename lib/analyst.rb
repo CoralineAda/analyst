@@ -29,8 +29,8 @@ module Analyst
 
   module ClassMethods
 
-    def for_files(path_to_files)
-      Analyst::Parser.for_files(path_to_files)
+    def for_files(*path_to_files)
+      Analyst::Parser.for_files(*path_to_files)
     end
 
     alias :for_file :for_files

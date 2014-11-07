@@ -9,12 +9,14 @@ module Analyst
     def_delegators :root, :classes, :top_level_classes, :constants,
                           :methods
 
-    def self.for_files(path_to_files)
-      file_paths = if File.directory?(path_to_files)
-        Dir.glob(File.join(path_to_files, "**", "*.rb"))
-      else
-        [path_to_files]
-      end
+    def self.for_files(*path_to_files)
+      file_paths = path_to_files.map do |path|
+        if File.directory?(path)
+          Dir.glob(File.join(path, "**", "*.rb"))
+        else
+          path
+        end
+      end.flatten
 
       wrapped_asts = file_paths.map do |path|
         ast = ::Parser::CurrentRuby.parse(File.open(path, 'r').read)

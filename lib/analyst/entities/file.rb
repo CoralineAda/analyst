@@ -14,6 +14,10 @@ module Analyst
         parent.source_data_for(self)
       end
 
+      def location
+        file_path
+      end
+
       def origin_source
         ::File.open(file_path, 'r').read
       end

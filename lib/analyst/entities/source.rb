@@ -11,7 +11,11 @@ module Analyst
       end
 
       def file_path
-        "$PARSED FROM SOURCE$"
+        "$SOURCE$"
+      end
+
+      def location
+        file_path
       end
 
       def origin_source
