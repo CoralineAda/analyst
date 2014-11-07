@@ -35,6 +35,14 @@ module Analyst
         @constants ||= top_level_constants + contents.map(&:constants).flatten
       end
 
+      def constant_assignments
+        @constant_assignments ||= top_level_constant_assignments + contents.map(&:constant_assignments).flatten
+      end
+
+      def top_level_constant_assignments
+        @top_level_constant_assignments ||= contents_of_type(Entities::ConstantAssignment)
+      end
+
       def top_level_constants
         @top_level_constants ||= contents_of_type(Entities::Constant)
       end
