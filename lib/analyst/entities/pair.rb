@@ -6,11 +6,17 @@ module Analyst
       handles_node :pair
 
       def key
-        process_node(ast.children[0])
+        @key ||= process_node(ast.children[0])
       end
 
       def value
-        process_node(ast.children[1])
+        @value ||= process_node(ast.children[1])
+      end
+
+      private
+
+      def contents
+        [key, value]
       end
     end
   end

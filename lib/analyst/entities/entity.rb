@@ -70,6 +70,10 @@ module Analyst
         @conditionals ||= contents_of_type(Entities::Conditional)
       end
 
+      def hashes
+        @hashes ||= contents_of_type(Entities::Hash)
+      end
+
       def location
         "#{file_path}:#{line_number}"
       end

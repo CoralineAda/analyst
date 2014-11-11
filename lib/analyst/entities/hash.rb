@@ -25,6 +25,12 @@ module Analyst
           hash
         end
       end
+
+      private
+
+      def contents
+        pairs
+      end
     end
   end
 end
