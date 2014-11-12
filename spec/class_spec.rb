@@ -5,6 +5,7 @@ describe Analyst::Entities::Class do
   let(:parser) { Analyst.for_file("./spec/fixtures/music.rb") }
   let(:artist) { parser.classes.detect { |klass| klass.full_name == "Artist" } }
   let(:singer) { parser.classes.detect { |klass| klass.full_name == "Singer" } }
+  let(:amp)    { parser.classes.detect { |klass| klass.full_name == "Performances::Equipment::Amp" }}
 
   describe "#method_calls" do
     it "lists all method invocations within a class definition" do
@@ -24,6 +25,13 @@ describe Analyst::Entities::Class do
     it "returns a list of class methods" do
       class_method_names = singer.cmethods.map(&:name)
       expect(class_method_names).to match_array ["superstar", "sellouts"]
+    end
+  end
+
+  describe "#constants" do
+    it "returns a list of constants" do
+      constants = amp.constants.map(&:name)
+      expect(constants).to match_array ["Interfaces::Basic", "Performances::Equipment::Microphone", "Performances::Equipment::MicStand"]
     end
   end
 

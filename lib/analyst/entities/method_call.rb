@@ -19,18 +19,10 @@ module Analyst
         end
       end
 
-      def constants
-        if target.is_a? Analyst::Entities::Constant
-          super << target
-        else
-          super
-        end
-      end
-
       private
 
       def contents
-        arguments
+        (arguments + [target]).compact
       end
 
       def target_node
@@ -38,7 +30,7 @@ module Analyst
       end
 
       def target
-        process_node(target_node)
+        @target ||= process_node(target_node)
       end
 
       def name_node
