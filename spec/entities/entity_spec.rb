@@ -46,6 +46,12 @@ describe Analyst::Entities::Entity do
       found = Analyst.for_source(code).constants.map(&:full_name)
       expect(found).to match_array %w[A B C]
     end
+
+    it "finds constants inside of interpolated strings" do
+      code = 'str = "Today, scientists classify Pluto as a #{Pluto.wtfru?}"'
+      found = Analyst.for_source(code).constants.map(&:name)
+      expect(found).to match_array %w[Pluto]
+    end
   end
 
   describe "#conditionals" do
@@ -113,6 +119,22 @@ end
 
       expect(test_method.source).to eq(method_text)
     end
+  end
+
+  describe "#method_calls" do
+    it "detects method calls" do
+      code = 'do_that_thang'
+      found = Analyst.for_source(code).method_calls.map(&:name)
+      expect(found).to match_array %w[do_that_thang]
+    end
+
+    it "detects calls inside calls" do
+      code = 'do_that_thang(with_this_stuff)'
+      do_that_thang = Analyst.for_source(code).method_calls.first
+      found = do_that_thang.method_calls.map(&:name)
+      expect(found).to match_array %w[with_this_stuff]
+    end
+
   end
 
 end

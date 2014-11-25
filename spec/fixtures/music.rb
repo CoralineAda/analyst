@@ -49,7 +49,6 @@ class Singer < Artist
 end
 
 class Song
-
   def initialize(popularity)
     @popularity = popularity
   end
@@ -58,14 +57,12 @@ end
 module Instruments
 
   class Stringed
-
     def initialize(num_strings)
       @num_strings = num_strings
     end
   end
 
   class Guitar < Stringed
-
     def initialize(sound)
       super(6)
       @sound = sound
@@ -76,11 +73,22 @@ end
 
 module Performances
   module Equipment
+
     class Amp
+      include Interfaces::Basic
+      def self.companion_gear(type)
+        [
+          Performances::Equipment::Microphone.new("mic_1").on,
+          Performances::Equipment::MicStand.new("mic_1_stand")
+        ]
+      end
     end
 
     class Microphone
     end
+
+    class MicStand
+    end
+
   end
 end
-
