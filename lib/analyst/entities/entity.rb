@@ -24,6 +24,10 @@ module Analyst
         end
       end
 
+      def strings
+        @strings ||= contents_of_type(Entities::String)
+      end
+
       def modules
         @modules ||= begin
           nested_modules = top_level_modules.map(&:modules).flatten
@@ -68,6 +72,10 @@ module Analyst
 
       def conditionals
         @conditionals ||= contents_of_type(Entities::Conditional)
+      end
+
+      def hashes
+        @hashes ||= contents_of_type(Entities::Hash)
       end
 
       def location
