@@ -10,7 +10,11 @@ module Analyst
       end
 
       def full_name
-        parent.nil? ? name : parent.full_name + '::' + name
+        (scope.nil? ? parent.full_name : scope.full_name) + '::' + name
+      end
+
+      def scope
+        @scope ||= process_node(ast.children.first)
       end
 
       private

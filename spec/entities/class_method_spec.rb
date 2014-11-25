@@ -20,10 +20,36 @@ describe Analyst::Entities::ClassMethod do
     end
   end
 
-  describe "#fulL_name" do
+  describe "#full_name" do
     it "returns its fully qualified name" do
       expect(method.full_name).to eq("DefaultCarrier::register")
     end
   end
 
+  context "using `class << self` blocks" do
+
+    let(:code) {<<-CODE
+        class BodyBuilder
+          class << self
+            def generate_tanning_booth
+              TanningBooth.new
+            end
+          end
+        end
+      CODE
+    }
+
+    describe "#name" do
+      it "returns its short name" do
+        expect(method.name).to eq("generate_tanning_booth")
+      end
+    end
+
+    describe "#full_name" do
+      it "returns its fully qualified name" do
+        pending "must resolve out handling of singleton classes"
+        expect(method.full_name).to eq("BodyBuilder::generate_tanning_booth")
+      end
+    end
+  end
 end
