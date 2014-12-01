@@ -3,10 +3,12 @@ require 'spec_helper'
 describe Analyst::Entities::SingletonClass do
 
   let(:code) {<<-CODE
-      class FriendlyStaff
-        class << self
-          def greet_customers
-            "Hello customers!"
+      module Arbys
+        class FriendlyStaff
+          class << self
+            def greet_customers
+              "Hello customers!"
+            end
           end
         end
       end
@@ -22,9 +24,9 @@ describe Analyst::Entities::SingletonClass do
     end
   end
 
-  describe "#fulL_name" do
+  describe "#full_name" do
     it "returns its fully qualified name" do
-      expect(singleton.full_name).to eq("FriendlyStaff!SINGLETON")
+      expect(singleton.full_name).to eq("Arbys::FriendlyStaff!SINGLETON")
     end
   end
 
