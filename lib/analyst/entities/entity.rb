@@ -83,19 +83,15 @@ module Analyst
       end
 
       def file_path
-        parent.file_path
+        ast.location.expression.source_buffer.name
       end
 
       def line_number
-        ast.loc.line
+        ast.location.line
       end
 
       def source
-        origin_source[source_range]
-      end
-
-      def origin_source
-        parent.origin_source
+        ast.location.expression.source
       end
 
       def full_name
@@ -109,10 +105,6 @@ module Analyst
       end
 
       private
-
-      def source_range
-        Range.new(ast.loc.expression.begin_pos, ast.loc.expression.end_pos)
-      end
 
       def contents_of_type(klass)
         contents.select { |entity| entity.is_a? klass }

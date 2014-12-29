@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Analyst::Entities::Entity do
 
-  let(:parser) { Analyst.for_file("./spec/fixtures/music.rb") }
+  let(:parser) { Analyst.for_file("./spec/fixtures/music/music.rb") }
   let(:singer) { parser.classes.detect{ |klass| klass.name == "Singer" }}
 
   describe "#constants" do
@@ -62,52 +62,36 @@ describe Analyst::Entities::Entity do
     end
   end
 
-  describe "(private) #source_range" do
-    let(:code) do <<-CODE
-class Foo
-  attr_accessor :bar
-end
-
-class Baz
-  def initialize
-    puts "Fresh Baz!"
-  end
-end
-    CODE
-    end
-
-    let(:parser) { Analyst.for_source(code) }
-
-    context "returns the source code location" do
-      let(:baz) { parser.classes.detect {|klass| klass.name == "Baz"} }
-      let(:source_range) { baz.send :source_range }
-
-      it "includes the start position" do
-        expect(source_range.begin).to eq code.index("class Baz")
-      end
-
-      it "includes the end position" do
-        expect(source_range.end).to eq code.size - 1
-      end
-    end
-  end
-
   describe "#file_path" do
-    let(:parser) { Analyst.for_files("./spec/fixtures") }
+    let(:parser) { Analyst.for_files("./spec/fixtures/music") }
     let(:singer) { parser.classes.detect { |klass| klass.name == "Singer" } }
 
     it "reports the path of the source file" do
-      expect(singer.file_path).to eq "./spec/fixtures/music.rb"
+      expect(singer.file_path).to eq "./spec/fixtures/music/music.rb"
+    end
+
+    it "works for non-top-level Entities too" do
+      a_method = singer.methods.first
+      expect(a_method.file_path).to eq "./spec/fixtures/music/music.rb"
+    end
+
+    context "when the source is a string" do
+      let(:parser) { Analyst.for_source("class Foo; end") }
+      let(:foo_class) { parser.classes.first }
+
+      it "returns '(string)'" do
+        expect(foo_class.file_path).to eq '(string)'
+      end
     end
   end
 
   describe "#location" do
-    let(:parser) { Analyst.for_files("./spec/fixtures") }
+    let(:parser) { Analyst.for_files("./spec/fixtures/music") }
     let(:singer) { parser.classes.detect { |klass| klass.name == "Singer" } }
     let(:songs)  { singer.imethods.detect { |meth| meth.name == "songs" } }
 
     it "reports the location of the source for the entity" do
-      expect(songs.location).to eq "./spec/fixtures/music.rb:41"
+      expect(songs.location).to eq "./spec/fixtures/music/music.rb:41"
     end
   end
 
@@ -115,7 +99,7 @@ end
     let(:test_method) { singer.imethods.first }
 
     it "correctly maps to the source" do
-      method_text = "def status\n    if self.album_sales > HIPSTER_THRESHOLD\n      \"sellout\"\n    else\n      \"cool\"\n    end\n  end\n"
+      method_text = "def status\n    if self.album_sales > HIPSTER_THRESHOLD\n      \"sellout\"\n    else\n      \"cool\"\n    end\n  end"
 
       expect(test_method.source).to eq(method_text)
     end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Analyst::Entities::Class do
 
-  let(:parser) { Analyst.for_file("./spec/fixtures/music.rb") }
+  let(:parser) { Analyst.for_file("./spec/fixtures/music/music.rb") }
   let(:artist) { parser.classes.detect { |klass| klass.full_name == "Artist" } }
   let(:singer) { parser.classes.detect { |klass| klass.full_name == "Singer" } }
   let(:amp)    { parser.classes.detect { |klass| klass.full_name == "Performances::Equipment::Amp" }}
