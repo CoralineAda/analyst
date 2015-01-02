@@ -34,18 +34,14 @@ module Analyst
 
     def self.parse_source(source, filename='(string)')
       parser = ::Parser::CurrentRuby.new
-      parser.diagnostics.consumer = lambda do |diag|
-        # errors and fatals will raise SyntaxError, so we deal with them in the rescue block
-        return if diag.level == :error || diag.level == :fatal
-        $stderr.puts "Warning during parsing; parsing of file (or string) will continue:"
-        $stderr.puts format_diagnostic_msg(diag)
-      end
+      parser.diagnostics.all_errors_are_fatal = true
+      parser.diagnostics.ignore_warnings      = true
 
       buffer = ::Parser::Source::Buffer.new(filename)
       buffer.source = source
       parser.parse(buffer)
     rescue ::Parser::SyntaxError => e
-      $stderr.puts "Error during parsing; file (or string) will be skipped:"
+      $stderr.puts "Error during parsing; #{filename == '(string)' ? 'string' : 'file'} will be skipped:"
       $stderr.puts format_diagnostic_msg(e.diagnostic)
     end
     private_class_method :parse_source
