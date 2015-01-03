@@ -13,10 +13,7 @@ module Analyst
       end
 
       def arguments
-        @arguments ||= begin
-          args = ast.children[2..-1]
-          args.map { |arg| process_node(arg) }
-        end
+        @arguments ||= process_nodes(ast.children[2..-1])
       end
 
       private

@@ -28,10 +28,19 @@ module Analyst
       # and passing that node here would return [:CoolModule, :SubMod, :SweetClass]
       # TODO: should really be nested Entities::Constants all the way down.
       # ((cbase) can probably use the same Entity, or maybe it's a subclass of Constant)
+      #
+      # Note: if any node besides (const) or (cbase) is encountered, that part gets named
+      # '<`source`>' where source is the source code for that node.
+      # e.g. `@thing.class::Sub::Mod` parses to:
+      # (const
+      #   (const
+      #     (send
+      #       (ivar :@thing) :class) :Sub) :Mod)
+      # and the corresponding Entities::Constant gets named "<`@thing.class`>::Sub::Mod"
       def const_node_array(node)
         return [] if node.nil?
         return [''] if node.type == :cbase
-        raise "expected (const) or (cbase) node or nil, got (#{node.type})" unless node.type == :const
+        return ["<`#{node.location.expression.source}`>"] unless node.type == :const
         const_node_array(node.children.first) << node.children[1]
       end
 

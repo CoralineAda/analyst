@@ -12,7 +12,7 @@ module Analyst
       private
 
       def contents
-        @contents ||= ast.children.map { |child| process_node(child) }.compact
+        @contents ||= process_nodes(ast.children).compact
       end
     end
   end

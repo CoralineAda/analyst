@@ -9,7 +9,7 @@ module Analyst
       def_delegators :parent, :name, :full_name
 
       def contents
-        @contents ||= ast.children.map { |child| process_node(child) }
+        @contents ||= process_nodes(ast.children)
       end
 
     end

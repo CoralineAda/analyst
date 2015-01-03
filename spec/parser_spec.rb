@@ -28,6 +28,20 @@ describe "Parser" do
     end
   end
 
+  describe "#constants" do
+    let(:code) { "Nice::Static::Constant; stupid.dynamic::Constant; @another.stupid::Constant" }
+    let(:parser) { Analyst.for_source(code) }
+
+    it "recognizes static constants" do
+      expect(parser.constants.map(&:name)).to include("Nice::Static::Constant")
+    end
+
+    it "recognizes dynamically-named constants" do
+      dynamic_constants = %w[<`stupid.dynamic`>::Constant <`@another.stupid`>::Constant]
+      expect(parser.constants.map(&:name)).to include(*dynamic_constants)
+    end
+  end
+
   describe "::for_source" do
     context "with syntax errors" do
       let(:code) {<<-CODE

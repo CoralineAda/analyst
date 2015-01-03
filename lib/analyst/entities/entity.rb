@@ -11,6 +11,10 @@ module Analyst
         Analyst::Processor.register_processor(type, self)
       end
 
+      def self.process(ast, parent)
+        new(ast, parent)
+      end
+
       def initialize(ast, parent)
         @parent = parent
         @ast = ast

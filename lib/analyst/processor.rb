@@ -16,7 +16,7 @@ module Analyst
     def self.process_node(node, parent)
       return if node.nil?
       return unless node.respond_to?(:type)
-      PROCESSORS[node.type].new(node, parent)
+      PROCESSORS[node.type].process(node, parent)
     end
 
   end

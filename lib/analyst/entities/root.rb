@@ -24,7 +24,7 @@ module Analyst
       private
 
       def actual_contents
-        @actual_contents ||= ast.children.map { |child| process_node(child) }
+        @actual_contents ||= process_nodes(ast.children)
       end
 
     end

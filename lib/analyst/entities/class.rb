@@ -36,3 +36,4 @@ module Analyst
     end
   end
 end
+
