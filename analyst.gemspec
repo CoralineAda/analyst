@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["coraline@idolhands.com", "mikezx@gmail.com"]
   spec.summary       = %q{A nice API for interacting with parsed Ruby source code.}
   spec.description   = %q{A nice API for interacting with parsed Ruby source code.}
-  spec.homepage      = ""
+  spec.homepage      = "https://gitlab.com/coraline/analyst"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

@@ -5,7 +5,7 @@ module Analyst
     extend Forwardable
 
     def_delegators :root, :classes, :top_level_classes, :constants, :modules,
-                          :methods, :method_calls, :hashes
+                          :methods, :method_calls, :hashes, :variables
 
     def self.for_files(*path_to_files)
       file_paths = path_to_files.map do |path|

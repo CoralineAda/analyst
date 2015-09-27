@@ -78,6 +78,10 @@ module Analyst
         @conditionals ||= contents_of_type(Entities::Conditional)
       end
 
+      def variables
+        @variables ||= contents_of_type(Entities::VariableAssignment)
+      end
+
       def hashes
         @hashes ||= contents_of_type(Entities::Hash)
       end
