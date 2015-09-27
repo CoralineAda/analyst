@@ -29,7 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "awesome_print"
-  spec.add_development_dependency "flog"
 
 end
 
