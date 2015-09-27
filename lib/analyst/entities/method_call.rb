@@ -16,6 +16,10 @@ module Analyst
         @arguments ||= process_nodes(ast.children[2..-1])
       end
 
+      def scope
+        @scope ||= process_node(ast.children.first)
+      end
+
       private
 
       def contents

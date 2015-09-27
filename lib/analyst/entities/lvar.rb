@@ -1,9 +1,9 @@
 module Analyst
 
   module Entities
-    class VariableAssignment < Entity
+    class Lvar < Entity
 
-      handles_node :lvasgn
+      handles_node :lvar
 
       def name
         name_node.to_s
@@ -17,14 +17,10 @@ module Analyst
         @scope ||= process_node(ast.children.first)
       end
 
-      def value
-        @value ||= process_nodes(ast.children)
-      end
-
       private
 
       def name_node
-        ast.children[1].children.first
+        ast.children.first
       end
     end
   end

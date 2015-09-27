@@ -23,6 +23,8 @@ require_relative "analyst/entities/hash"
 require_relative "analyst/entities/pair"
 require_relative "analyst/entities/symbol"
 require_relative "analyst/entities/string"
+require_relative "analyst/entities/variable_assignment"
+require_relative "analyst/entities/lvar"
 
 module Analyst
 

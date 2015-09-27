@@ -8,7 +8,7 @@ module Analyst
                           :methods, :method_calls, :hashes, :variables
 
     def self.for_files(*path_to_files)
-      file_paths = path_to_files.map do |path|
+      file_paths = path_to_files.flatten.map do |path|
         if File.directory?(path)
           Dir.glob(File.join(path, "**", "*.rb"))
         else
