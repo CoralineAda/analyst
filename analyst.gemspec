@@ -6,8 +6,8 @@ require 'analyst/version'
 Gem::Specification.new do |spec|
   spec.name          = "analyst"
   spec.version       = Analyst::VERSION
-  spec.authors       = ["Coraline Ada Ehmke", "Mike Ziwisky"]
-  spec.email         = ["coraline@idolhands.com", "mikezx@gmail.com"]
+  spec.authors       = ["Coraline Ada Ehmke", "Mike Ziwisky", "Instructure"]
+  spec.email         = ["coraline@idolhands.com", "mikezx@gmail.com", "eng@instructure.com"]
   spec.summary       = %q{A nice API for interacting with parsed Ruby source code.}
   spec.description   = %q{A nice API for interacting with parsed Ruby source code.}
   spec.homepage      = "https://gitlab.com/coraline/analyst"

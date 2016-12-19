@@ -71,7 +71,11 @@ module Analyst
       # kind of Method, right??
       # ref: http://www.devalot.com/articles/2008/09/ruby-singleton
       def methods
-        @methods ||= contents_of_type(Entities::InstanceMethod)
+        return @methods if defined?(@methods)
+        @methods = contents_of_type(Entities::InstanceMethod)
+        @methods << contents_of_type(Entities::ClassMethod)
+        @methods << contents_of_type(Entities::SingletonMethod)
+        @methods.flatten!
       end
 
       def conditionals
