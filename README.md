@@ -1,6 +1,6 @@
 # Analyst
 
-TODO: Write a gem description
+Analyst provides a DOM-like interface to abstract syntax trees, allowing querying by type (e.g. method or constant). It is a utility gem used by higher-level libraries such as fukuzatsu and snuffle.
 
 ## Installation
 
@@ -16,12 +16,9 @@ Or install it yourself as:
 
     $ gem install analyst
 
-## Usage
-
-TODO: Write usage instructions here
 
 ## Contributing
-Please note that this project is released with a [Contributor Code of Conduct](https://gitlab.com/coraline/analyst/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/coralineada/analyst/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 1. Fork it ( https://github.com/[my-github-username]/analyst/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
